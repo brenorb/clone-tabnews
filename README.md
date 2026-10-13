@@ -112,3 +112,31 @@ de Next 13. Essas versões mantêm a compatibilidade com o Node 18 de `.nvmrc`.
 `npm run build` executa o mesmo lint antes do Next; `--no-lint` desliga apenas a
 integração antiga do build de Next 13, que não entende a configuração flat.
 O workflow de CI também exige o lint antes dos testes e do build.
+
+## Lint de commits
+
+`npm ci` instala um hook local `commit-msg` com Husky. Ele valida a mensagem com
+commitlint e [Conventional Commits](https://www.conventionalcommits.org/):
+
+```text
+feat: adicionar página de conteúdo
+fix(database): corrigir conexão
+chore: atualizar ferramentas
+```
+
+Use um dos tipos convencionais (`feat`, `fix`, `docs`, `style`, `refactor`,
+`perf`, `test`, `build`, `ci`, `chore`, `revert`), um assunto e, quando útil,
+um escopo. Mensagens fora do padrão impedem o commit. O hook usa apenas o
+commitlint instalado no projeto, sem baixar pacotes durante o commit.
+
+O CI valida todos os commits do PR entre a base e o head; pushes e execução
+manual validam o commit atual. O histórico anterior não precisa ser reescrito.
+Para conferir um intervalo localmente:
+
+```bash
+npm run lint:commits -- --from origin/main --to HEAD --verbose
+```
+
+A instalação dos hooks é omitida em CI, com `NODE_ENV=production` ou `HUSKY=0`.
+Isso permite instalação de produção sem dependências de desenvolvimento e
+mantém a validação automática das mensagens no workflow de CI.

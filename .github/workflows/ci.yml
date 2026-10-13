@@ -40,12 +40,23 @@ jobs:
       NEXT_TELEMETRY_DISABLED: 1
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci --engine-strict
-      - name: Check formatting
+      - name: Validate pull request commit messages
+        if: github.event_name == 'pull_request'
+        env:
+          COMMIT_FROM: ${{ github.event.pull_request.base.sha }}
+          COMMIT_TO: ${{ github.event.pull_request.head.sha }}
+        run: npm run lint:commits -- --from "$COMMIT_FROM" --to "$COMMIT_TO" --verbose
+      - name: Validate current commit message
+        if: github.event_name != 'pull_request'
+        run: npm run lint:commits -- --last --verbose
+      - name: Check code and formatting
         run: npm run lint:check
       - name: Unit and database integration tests
         run: npm test -- --runInBand

@@ -22,7 +22,9 @@
     "test:smoke": "node scripts/smoke-status.js",
     "format:check": "prettier --check .",
     "format:fix": "prettier --write .",
-    "lint:code": "eslint . --max-warnings=0"
+    "lint:code": "eslint . --max-warnings=0",
+    "prepare": "node scripts/install-hooks.js",
+    "lint:commits": "commitlint"
   },
   "author": "",
   "license": "MIT",
@@ -33,12 +35,15 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "19.8.1",
+    "@commitlint/config-conventional": "19.8.1",
     "@eslint/compat": "1.4.1",
     "@eslint/js": "9.39.5",
     "@next/eslint-plugin-next": "13.1.6",
     "eslint": "9.39.5",
     "eslint-plugin-react": "7.37.5",
     "globals": "16.5.0",
+    "husky": "9.1.7",
     "jest": "^29.6.2",
     "node-pg-migrate": "7.6.0",
     "prettier": "^3.3.3"
