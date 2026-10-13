@@ -95,3 +95,20 @@ O smoke test inicia e encerra seu próprio servidor Next na porta 4185. Use
 `SMOKE_PORT=4186 npm run test:smoke` se ela estiver ocupada. Build e smoke devem
 rodar em sequência. As credenciais do serviço de CI são fixtures locais; o
 workflow não usa o banco ou os segredos de produção.
+
+## Lint de código
+
+`npm run lint:check` verifica JavaScript/JSX com ESLint e formatação com Prettier.
+`npm run lint:fix` aplica as correções automáticas disponíveis; revise o diff.
+Para rodar só uma etapa, use `lint:code`, `format:check` ou `format:fix`.
+
+O ESLint verifica variáveis indefinidas/não usadas, regras recomendadas de React
+e regras de Next/Core Web Vitals nas páginas. Configurações, scripts e infra usam
+CommonJS/Node; APIs usam módulos/Node; testes conhecem os globals de Jest.
+Arquivos gerados de `.next`, dependências e cobertura ficam fora do lint.
+
+A configuração usa ESLint 9 e o adaptador oficial `@eslint/compat` para o plugin
+de Next 13. Essas versões mantêm a compatibilidade com o Node 18 de `.nvmrc`.
+`npm run build` executa o mesmo lint antes do Next; `--no-lint` desliga apenas a
+integração antiga do build de Next 13, que não entende a configuração flat.
+O workflow de CI também exige o lint antes dos testes e do build.
