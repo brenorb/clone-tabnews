@@ -47,3 +47,28 @@ npm run build
 
 Os testes de integração usam as variáveis do processo ou `.env.test.local`;
 sem overrides, seguem os valores de `.env.example`. Só executam consultas de teste, e encerram seu pool no final.
+
+## Migrations
+
+As alterações versionadas ficam em `infra/migrations/`. O runner usa a mesma
+configuração `POSTGRES_*` do módulo de banco e registra aplicações em
+`pgmigrations`, com lock e transação para o conjunto pendente.
+
+```bash
+npm run migrations:plan
+npm run migrations:up
+npm run migrations:create -- create-posts
+```
+
+O plano conecta ao banco e pode inicializar a tabela de controle do migrador,
+mas não aplica as alterações nas tabelas da aplicação. Repetir `up` aplica apenas
+migrations pendentes. Novas migrations devem preencher `up` e `down` no template.
+
+A primeira migration cria `users`, com UUID, nomes/emails únicos, campo para hash
+de senha e timestamps. `updated_at` é inicializado; alterações futuras devem
+atualizá-lo.
+
+`npm run migrations:down` desfaz **uma** migration. No caso inicial, isso remove
+`users` e seus dados; use o rollback no banco de desenvolvimento apropriado.
+Os testes usam um schema exclusivo e descartável, verificando aplicação,
+repetição, rollback/reaplicação e falha atômica de DDL.
