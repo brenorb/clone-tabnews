@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "jest": "^29.6.2",
-    "node-pg-migrate": "^7.9.1",
+    "node-pg-migrate": "7.6.0",
     "prettier": "^3.3.3"
   }
 }
