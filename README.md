@@ -72,3 +72,26 @@ atualizá-lo.
 `users` e seus dados; use o rollback no banco de desenvolvimento apropriado.
 Os testes usam um schema exclusivo e descartável, verificando aplicação,
 repetição, rollback/reaplicação e falha atômica de DDL.
+
+## Integração contínua
+
+O workflow `Continuous integration` roda em pull requests, pushes para `main`
+e execução manual. Usa a versão de Node de `.nvmrc`, `npm ci` e PostgreSQL 16
+em um serviço descartável do runner. Verifica formatação, testes unitários e de
+integração, migrations, build e probes HTTP do app em modo de produção.
+
+Para repetir o fluxo com o banco local já iniciado:
+
+```bash
+npm ci
+npm run lint:check
+npm test -- --runInBand
+npm run migrations:up
+npm run build
+npm run test:smoke
+```
+
+O smoke test inicia e encerra seu próprio servidor Next na porta 4185. Use
+`SMOKE_PORT=4186 npm run test:smoke` se ela estiver ocupada. Build e smoke devem
+rodar em sequência. As credenciais do serviço de CI são fixtures locais; o
+workflow não usa o banco ou os segredos de produção.
