@@ -140,3 +140,9 @@ npm run lint:commits -- --from origin/main --to HEAD --verbose
 A instalação dos hooks é omitida em CI, com `NODE_ENV=production` ou `HUSKY=0`.
 Isso permite instalação de produção sem dependências de desenvolvimento e
 mantém a validação automática das mensagens no workflow de CI.
+
+## Licença
+
+Este projeto usa a licença [MIT](LICENSE), conforme declarado em `package.json`.
+O texto permite usar, modificar e distribuir o código, preservando o aviso de
+copyright e a licença. O software é fornecido sem garantia.
