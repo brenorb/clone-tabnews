@@ -8,12 +8,19 @@
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "build": "next build",
+    "start": "next start",
+    "services:up": "docker compose --env-file .env.development.local -f infra/compose.yaml up -d --wait",
+    "services:down": "docker compose --env-file .env.development.local -f infra/compose.yaml down",
+    "test:unit": "jest --runInBand tests/unit",
+    "test:integration": "jest --runInBand tests/integration"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "next": "^13.1.6",
+    "pg": "^8.23.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
