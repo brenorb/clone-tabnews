@@ -18,7 +18,8 @@
     "migrations:up": "node scripts/migrate.js up",
     "migrations:down": "node scripts/migrate.js down",
     "migrations:plan": "node scripts/migrate.js up --dry-run",
-    "migrations:create": "node scripts/migrate.js create"
+    "migrations:create": "node scripts/migrate.js create",
+    "test:smoke": "node scripts/smoke-status.js"
   },
   "author": "",
   "license": "MIT",
