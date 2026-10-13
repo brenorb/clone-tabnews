@@ -14,7 +14,11 @@
     "services:up": "docker compose --env-file .env.development.local -f infra/compose.yaml up -d --wait",
     "services:down": "docker compose --env-file .env.development.local -f infra/compose.yaml down",
     "test:unit": "jest --runInBand tests/unit",
-    "test:integration": "jest --runInBand tests/integration"
+    "test:integration": "jest --runInBand tests/integration",
+    "migrations:up": "node scripts/migrate.js up",
+    "migrations:down": "node scripts/migrate.js down",
+    "migrations:plan": "node scripts/migrate.js up --dry-run",
+    "migrations:create": "node scripts/migrate.js create"
   },
   "author": "",
   "license": "MIT",
@@ -26,6 +30,7 @@
   },
   "devDependencies": {
     "jest": "^29.6.2",
+    "node-pg-migrate": "7.6.0",
     "prettier": "^3.3.3"
   }
 }
